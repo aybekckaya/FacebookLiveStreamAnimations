@@ -12,9 +12,9 @@ import UIKit
 enum EmojiType:CaseIterable {
     case love
     case like
-    case laugh
-    case cry
-    case wow
+    //case laugh
+    //case cry
+    //case wow
     
     var image:UIImage {
         switch self {
@@ -22,17 +22,23 @@ enum EmojiType:CaseIterable {
             return UIImage(named: "emoji_heart")!
         case .like:
             return UIImage(named: "emoji_like")!
+            /*
         case .cry:
             return UIImage(named: "emoji_cry")!
         case .laugh:
              return UIImage(named: "emoji_laugh")!
         case .wow:
              return UIImage(named: "emoji_wow")!
+ */
         }
     }
 }
 
 class EmojiView:UIView , CAAnimationDelegate {
+    
+    static let heightConstraintValue:CGFloat = 500
+    static let widthConstraintValue:CGFloat = 120 
+    
     private var type:EmojiType = EmojiType.love
     private let imageView:UIImageView = {
         let imView:UIImageView = UIImageView(frame: .zero)

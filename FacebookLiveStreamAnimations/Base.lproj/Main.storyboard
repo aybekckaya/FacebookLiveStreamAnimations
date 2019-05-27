@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8wa-kn-x3P">
-    <device id="retina6_1" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -13,9 +13,8 @@
         <!--Navigation Controller-->
         <scene sceneID="zMy-nj-qqT">
             <objects>
-                <navigationController id="8wa-kn-x3P" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="8wa-kn-x3P" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Js8-y8-Kut">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -31,9 +30,20 @@
             <objects>
                 <viewController storyboardIdentifier="LiveStreamVC" id="gP8-Yj-Tw2" customClass="LiveStreamVC" customModule="FacebookLiveStreamAnimations" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VAl-gx-KXa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BGScreen" translatesAutoresizingMaskIntoConstraints="NO" id="yOZ-qR-0vV">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yOZ-qR-0vV" firstAttribute="top" secondItem="oYt-Md-ZG1" secondAttribute="top" id="Hqa-Qs-KXc"/>
+                            <constraint firstItem="yOZ-qR-0vV" firstAttribute="bottom" secondItem="oYt-Md-ZG1" secondAttribute="bottom" id="OmJ-fe-lp6"/>
+                            <constraint firstItem="yOZ-qR-0vV" firstAttribute="leading" secondItem="oYt-Md-ZG1" secondAttribute="leading" id="Q6g-JZ-b7R"/>
+                            <constraint firstItem="yOZ-qR-0vV" firstAttribute="trailing" secondItem="oYt-Md-ZG1" secondAttribute="trailing" id="jyh-jk-ckK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="oYt-Md-ZG1"/>
                     </view>
                     <navigationItem key="navigationItem" id="COb-cp-UWB"/>
@@ -43,4 +53,7 @@
             <point key="canvasLocation" x="126" y="155"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="BGScreen" width="990" height="1754"/>
+    </resources>
 </document>

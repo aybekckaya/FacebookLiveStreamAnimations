@@ -16,6 +16,9 @@
 		A34935B8229BE0BB00C97312 /* FacebookLiveStreamAnimationsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935B7229BE0BB00C97312 /* FacebookLiveStreamAnimationsUITests.swift */; };
 		A34935C6229BE16100C97312 /* LiveStreamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935C5229BE16100C97312 /* LiveStreamVC.swift */; };
 		A34935C9229BE1D300C97312 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935C8229BE1D300C97312 /* EmojiView.swift */; };
+		A34935CD229BFC7900C97312 /* ReactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935CB229BFC7900C97312 /* ReactionVC.swift */; };
+		A34935CE229BFC7900C97312 /* ReactionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A34935CC229BFC7900C97312 /* ReactionVC.xib */; };
+		A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D0229C000600C97312 /* UIView+Constraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		A34935B9229BE0BB00C97312 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A34935C5229BE16100C97312 /* LiveStreamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamVC.swift; sourceTree = "<group>"; };
 		A34935C8229BE1D300C97312 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
+		A34935CB229BFC7900C97312 /* ReactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVC.swift; sourceTree = "<group>"; };
+		A34935CC229BFC7900C97312 /* ReactionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVC.xib; sourceTree = "<group>"; };
+		A34935D0229C000600C97312 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,8 @@
 		A3493593229BE0B900C97312 /* FacebookLiveStreamAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				A34935CF229BFFD900C97312 /* Extensions */,
+				A34935CA229BFC1F00C97312 /* ReactionVC */,
 				A34935C7229BE1C400C97312 /* EmojiView */,
 				A3493594229BE0B900C97312 /* AppDelegate.swift */,
 				A3493598229BE0B900C97312 /* Main.storyboard */,
@@ -137,6 +145,23 @@
 				A34935C8229BE1D300C97312 /* EmojiView.swift */,
 			);
 			path = EmojiView;
+			sourceTree = "<group>";
+		};
+		A34935CA229BFC1F00C97312 /* ReactionVC */ = {
+			isa = PBXGroup;
+			children = (
+				A34935CB229BFC7900C97312 /* ReactionVC.swift */,
+				A34935CC229BFC7900C97312 /* ReactionVC.xib */,
+			);
+			path = ReactionVC;
+			sourceTree = "<group>";
+		};
+		A34935CF229BFFD900C97312 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A34935D0229C000600C97312 /* UIView+Constraints.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A34935A2229BE0BB00C97312 /* LaunchScreen.storyboard in Resources */,
+				A34935CE229BFC7900C97312 /* ReactionVC.xib in Resources */,
 				A349359F229BE0BB00C97312 /* Assets.xcassets in Resources */,
 				A349359A229BE0B900C97312 /* Main.storyboard in Resources */,
 			);
@@ -270,8 +296,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A34935CD229BFC7900C97312 /* ReactionVC.swift in Sources */,
 				A3493595229BE0B900C97312 /* AppDelegate.swift in Sources */,
 				A34935C9229BE1D300C97312 /* EmojiView.swift in Sources */,
+				A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */,
 				A34935C6229BE16100C97312 /* LiveStreamVC.swift in Sources */,
 				A349359D229BE0B900C97312 /* FacebookLiveStreamAnimations.xcdatamodeld in Sources */,
 			);
