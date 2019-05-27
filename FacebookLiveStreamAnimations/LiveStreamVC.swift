@@ -10,21 +10,50 @@ import UIKit
 
 class LiveStreamVC: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    private var displayLink:CADisplayLink?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setUpDisplayLink()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
-    */
+    
+    private func setUpDisplayLink() {
+        displayLink = CADisplayLink(target: self, selector: #selector(updateDisplayLink))
+        displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
+    }
+    
+    @objc private func addEmojiView() {
+        let initPos = CGPoint(x: self.view.center.x, y: self.view.frame.size.height)
+        let finalPos = CGPoint(x: self.view.center.x, y: 0)
+        let type = EmojiType.allCases.randomElement()!
+        let emojiView = EmojiView(type: type, initialPosition: initPos, finalPosition: finalPos, oscilation: 120)
+        emojiView.center = CGPoint(x: self.view.center.x, y: self.view.frame.size.height)
+        self.view.addSubview(emojiView)
+        let animation = emojiView.animationGroup
+        emojiView.layer.add(animation!, forKey: nil)
+        // debugPath(path: emojiView.path)
+    }
+
+    
+    private func debugPath(path:CGPath) {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path
+        shapeLayer.fillColor = nil
+        shapeLayer.strokeColor = UIColor.green.cgColor
+        shapeLayer.lineWidth = 2
+        self.view.layer.addSublayer(shapeLayer)
+    }
+    
+    @objc func updateDisplayLink() {
+        let currentTime = CACurrentMediaTime()*1000
+        let seed = Int.random(in: 1..<30)
+        guard Int(currentTime) % seed == 0 else { return }
+        addEmojiView()
+    }
+  
 
 }
