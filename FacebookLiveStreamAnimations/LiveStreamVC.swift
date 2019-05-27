@@ -45,7 +45,7 @@ class LiveStreamVC: UIViewController {
         self.view.addSubview(viewEmojiContainer)
         viewEmojiContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: nil, trailing: 0)
         viewEmojiContainer.addLengthConstraints(height: EmojiView.heightConstraintValue, width: EmojiView.widthConstraintValue)
-        //viewEmojiContainer.backgroundColor = UIColor.green
+        
     }
     
     
@@ -71,7 +71,8 @@ extension LiveStreamVC {
         let initPos = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
         let finalPos = CGPoint(x: initPos.x, y: 0)
         let type = EmojiType.allCases.randomElement()!
-        let emojiView = EmojiView(type: type, initialPosition: initPos, finalPosition: finalPos, oscilation: 120)
+        let configuration = EmojiViewConfiguration(owner:EmojiOwner.other, oscilation: 120, itemSize: 30, duration: 7, initialPosition: initPos, finalPosition: finalPos, emojiType: type )
+        let emojiView = EmojiView(configuration: configuration)
         emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
         self.viewEmojiContainer.addSubview(emojiView)
         let animation = emojiView.animationGroup

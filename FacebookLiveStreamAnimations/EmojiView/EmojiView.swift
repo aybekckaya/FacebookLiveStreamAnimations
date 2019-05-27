@@ -34,10 +34,34 @@ enum EmojiType:CaseIterable {
     }
 }
 
+enum EmojiOwner {
+    case me
+    case friend
+    case other
+}
+
+
+struct EmojiViewConfiguration {
+    var owner:EmojiOwner = EmojiOwner.other
+    var oscilation:CGFloat = 120
+    var itemSize:CGFloat = 30
+    var duration:CFTimeInterval = 7
+    var initialPosition:CGPoint = CGPoint(x: UIScreen.main.bounds.size.width/2, y: UIScreen.main.bounds.size.height)
+    var finalPosition:CGPoint = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 0)
+    var emojiType:EmojiType = EmojiType.like
+    
+    static let defaultConfiguration:EmojiViewConfiguration = {
+        return EmojiViewConfiguration()
+    }()
+    
+}
+// 243 ,185 , 66
 class EmojiView:UIView , CAAnimationDelegate {
     
     static let heightConstraintValue:CGFloat = 500
     static let widthConstraintValue:CGFloat = 120 
+    static let blinkStartColor:UIColor = #colorLiteral(red: 0.9529411765, green: 0.7254901961, blue: 0.2588235294, alpha: 1)
+    static let blinkEndColor:UIColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
     
     private var type:EmojiType = EmojiType.love
     private let imageView:UIImageView = {
@@ -52,18 +76,22 @@ class EmojiView:UIView , CAAnimationDelegate {
     private var finalPosition:CGPoint = .zero
     private var oscilation:CGFloat = 0
     
+    private var currentConfiguration:EmojiViewConfiguration?
     
-    init(type:EmojiType , initialPosition:CGPoint , finalPosition:CGPoint , oscilation:CGFloat) {
-        super.init(frame: CGRect.init(origin: .zero, size: CGSize(width: 30, height: 30)))
-        self.type = type
-        self.oscilation = oscilation
-        self.initialPosition = initialPosition
-        self.finalPosition = finalPosition
+    init(configuration:EmojiViewConfiguration = EmojiViewConfiguration.defaultConfiguration) {
+        super.init(frame: .zero)
+        self.currentConfiguration = configuration
         setUp()
         initializePath()
     }
     
     private func setUp() {
+        let configuration:EmojiViewConfiguration = self.currentConfiguration ?? EmojiViewConfiguration.defaultConfiguration
+        self.type =  configuration.emojiType
+        self.oscilation = configuration.oscilation
+        self.initialPosition = configuration.initialPosition
+        self.finalPosition = configuration.finalPosition
+        self.frame = CGRect.init(origin: .zero, size: CGSize(width: configuration.itemSize, height: configuration.itemSize))
         self.addSubview(imageView)
         imageView.frame = CGRect.init(origin: .zero, size: self.frame.size)
         imageView.image = self.type.image
@@ -72,7 +100,7 @@ class EmojiView:UIView , CAAnimationDelegate {
     
     private func initializePath() {
         self.path = EmojiView.path(from: initialPosition, to: finalPosition, oscilation: oscilation)
-        self.animationGroup = EmojiView.animation(path: self.path, durationTotal: 7)
+        self.animationGroup = EmojiView.animation(path: self.path, configuration: self.currentConfiguration!)
         self.animationGroup.delegate = self
     }
     
@@ -88,14 +116,37 @@ class EmojiView:UIView , CAAnimationDelegate {
 
 // Animation Creator
 extension EmojiView {
-    fileprivate static func animation(path:CGPath , durationTotal:CFTimeInterval)->CAAnimationGroup {
+    fileprivate static func animation(path:CGPath , configuration:EmojiViewConfiguration)->CAAnimationGroup {
+        var animations:[CAAnimation] = []
+        switch configuration.owner {
+            case .me:
+                animations = [positionAnimation(path: path) , opacityAnimation(configuration: configuration) , scaleAnimation(configuration: configuration)]
+            default:
+                animations = [positionAnimation(path: path) , opacityAnimation(configuration: configuration) , scaleAnimation(configuration: configuration)]
+        }
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.animations = animations
+        animationGroup.duration = configuration.duration
+        animationGroup.fillMode =  CAMediaTimingFillMode.forwards
+        animationGroup.isRemovedOnCompletion = false
+        
+        
+        return animationGroup
+    }
+    
+    private static func positionAnimation(path:CGPath)->CAKeyframeAnimation {
         let animationPosition = CAKeyframeAnimation(keyPath: "position")
         animationPosition.path = path
         animationPosition.fillMode = CAMediaTimingFillMode.forwards
         animationPosition.isRemovedOnCompletion = false
         let timingFunc = CAMediaTimingFunction(controlPoints: 0.25, 0.25, 0.5, 0.75)
         animationPosition.timingFunctions = [timingFunc]
-        
+        return animationPosition
+    }
+    
+    private static func opacityAnimation(configuration:EmojiViewConfiguration)->CABasicAnimation {
+        let durationTotal = configuration.duration
         let animationOpacity = CABasicAnimation(keyPath: "opacity")
         animationOpacity.fromValue = 1
         animationOpacity.toValue = 0
@@ -103,7 +154,11 @@ extension EmojiView {
         animationOpacity.beginTime = durationTotal - durationTotal*3 / 5
         animationOpacity.isRemovedOnCompletion = false
         animationOpacity.fillMode = CAMediaTimingFillMode.forwards
-        
+        return animationOpacity
+    }
+    
+    private static func scaleAnimation(configuration:EmojiViewConfiguration)->CABasicAnimation {
+        let durationTotal = configuration.duration
         let animationScale = CABasicAnimation(keyPath: "transform.scale")
         animationScale.fromValue = 1
         animationScale.toValue = 0
@@ -111,16 +166,9 @@ extension EmojiView {
         animationScale.beginTime = durationTotal - durationTotal*3 / 5
         animationScale.isRemovedOnCompletion = false
         animationScale.fillMode = CAMediaTimingFillMode.forwards
-        
-        let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [animationPosition , animationOpacity , animationScale]
-        animationGroup.duration = durationTotal
-        animationGroup.fillMode =  CAMediaTimingFillMode.forwards
-        animationGroup.isRemovedOnCompletion = false
-        
-        
-        return animationGroup
+        return animationScale
     }
+    
 }
 
 

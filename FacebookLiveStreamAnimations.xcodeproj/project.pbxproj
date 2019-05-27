@@ -19,6 +19,7 @@
 		A34935CD229BFC7900C97312 /* ReactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935CB229BFC7900C97312 /* ReactionVC.swift */; };
 		A34935CE229BFC7900C97312 /* ReactionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A34935CC229BFC7900C97312 /* ReactionVC.xib */; };
 		A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D0229C000600C97312 /* UIView+Constraints.swift */; };
+		A34935D3229C0AF400C97312 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D2229C0AF400C97312 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		A34935CB229BFC7900C97312 /* ReactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVC.swift; sourceTree = "<group>"; };
 		A34935CC229BFC7900C97312 /* ReactionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVC.xib; sourceTree = "<group>"; };
 		A34935D0229C000600C97312 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		A34935D2229C0AF400C97312 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				A34935A3229BE0BB00C97312 /* Info.plist */,
 				A349359B229BE0B900C97312 /* FacebookLiveStreamAnimations.xcdatamodeld */,
 				A34935C5229BE16100C97312 /* LiveStreamVC.swift */,
+				A34935D4229C0B4400C97312 /* Models */,
 			);
 			path = FacebookLiveStreamAnimations;
 			sourceTree = "<group>";
@@ -162,6 +165,14 @@
 				A34935D0229C000600C97312 /* UIView+Constraints.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A34935D4229C0B4400C97312 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A34935D2229C0AF400C97312 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,6 +313,7 @@
 				A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */,
 				A34935C6229BE16100C97312 /* LiveStreamVC.swift in Sources */,
 				A349359D229BE0B900C97312 /* FacebookLiveStreamAnimations.xcdatamodeld in Sources */,
+				A34935D3229C0AF400C97312 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
