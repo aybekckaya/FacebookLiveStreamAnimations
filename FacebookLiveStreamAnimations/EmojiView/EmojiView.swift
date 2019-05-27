@@ -85,7 +85,7 @@ extension EmojiView {
         animationOpacity.fromValue = 1
         animationOpacity.toValue = 0
         animationOpacity.duration = durationTotal*2 / 5
-        animationOpacity.beginTime = durationTotal - animationOpacity.duration
+        animationOpacity.beginTime = durationTotal - durationTotal*3 / 5
         animationOpacity.isRemovedOnCompletion = false
         animationOpacity.fillMode = CAMediaTimingFillMode.forwards
         
@@ -93,7 +93,7 @@ extension EmojiView {
         animationScale.fromValue = 1
         animationScale.toValue = 0
         animationScale.duration = durationTotal*2 / 5
-        animationScale.beginTime = durationTotal - animationScale.duration
+        animationScale.beginTime = durationTotal - durationTotal*3 / 5
         animationScale.isRemovedOnCompletion = false
         animationScale.fillMode = CAMediaTimingFillMode.forwards
         

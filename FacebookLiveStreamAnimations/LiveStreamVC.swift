@@ -26,7 +26,20 @@ class LiveStreamVC: UIViewController {
         displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
     }
     
-    @objc private func addEmojiView() {
+    @objc private func updateDisplayLink() {
+        let currentTime = CACurrentMediaTime()*1000
+        let seed = Int.random(in: 1..<30)
+        guard Int(currentTime) % seed == 0 else { return }
+        addEmojiView()
+    }
+  
+
+}
+
+
+/// EMOJI VIEW
+extension LiveStreamVC {
+    @objc fileprivate func addEmojiView() {
         let initPos = CGPoint(x: self.view.center.x, y: self.view.frame.size.height)
         let finalPos = CGPoint(x: self.view.center.x, y: 0)
         let type = EmojiType.allCases.randomElement()!
@@ -37,7 +50,7 @@ class LiveStreamVC: UIViewController {
         emojiView.layer.add(animation!, forKey: nil)
         // debugPath(path: emojiView.path)
     }
-
+    
     
     private func debugPath(path:CGPath) {
         let shapeLayer = CAShapeLayer()
@@ -47,13 +60,4 @@ class LiveStreamVC: UIViewController {
         shapeLayer.lineWidth = 2
         self.view.layer.addSublayer(shapeLayer)
     }
-    
-    @objc func updateDisplayLink() {
-        let currentTime = CACurrentMediaTime()*1000
-        let seed = Int.random(in: 1..<30)
-        guard Int(currentTime) % seed == 0 else { return }
-        addEmojiView()
-    }
-  
-
 }
