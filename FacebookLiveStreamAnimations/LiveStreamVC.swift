@@ -34,7 +34,7 @@ class LiveStreamVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        setUpDisplayLink()
+      //  setUpDisplayLink()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -46,6 +46,22 @@ class LiveStreamVC: UIViewController {
         viewEmojiContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: nil, trailing: 0)
         viewEmojiContainer.addLengthConstraints(height: EmojiView.heightConstraintValue, width: EmojiView.widthConstraintValue)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addUserReactionEmoji))
+        self.view.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc private func addUserReactionEmoji() {
+        let initPos = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
+        let finalPos = CGPoint(x: initPos.x, y: 0)
+        let type = EmojiType.allCases.randomElement()!
+        let configuration = EmojiViewConfiguration(owner:EmojiOwner.me, oscilation: 120, itemSize: 30, duration: 7, initialPosition: initPos, finalPosition: finalPos, emojiType: type )
+        let emojiView = EmojiView(configuration: configuration)
+        emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
+        self.viewEmojiContainer.addSubview(emojiView)
+        let animation = emojiView.animationGroup
+        emojiView.layer.add(animation!, forKey: nil)
+    
     }
     
     

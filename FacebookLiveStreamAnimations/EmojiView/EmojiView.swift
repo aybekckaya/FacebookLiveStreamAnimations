@@ -64,18 +64,24 @@ class EmojiView:UIView , CAAnimationDelegate {
     static let blinkEndColor:UIColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
     
     private var type:EmojiType = EmojiType.love
+    
     private let imageView:UIImageView = {
         let imView:UIImageView = UIImageView(frame: .zero)
         imView.clipsToBounds = true
+        imView.contentMode = UIView.ContentMode.scaleAspectFill
+        return imView
+    }()
+    
+    private let imageViewProfile:UIImageView = {
+        let imView:UIImageView = UIImageView(frame: .zero)
+        imView.clipsToBounds = true
+        imView.contentMode = UIView.ContentMode.scaleAspectFill
         return imView
     }()
     
     fileprivate(set) var path:CGPath!
     fileprivate(set) var animationGroup:CAAnimationGroup!
-    private var initialPosition:CGPoint = .zero
-    private var finalPosition:CGPoint = .zero
-    private var oscilation:CGFloat = 0
-    
+   
     private var currentConfiguration:EmojiViewConfiguration?
     
     init(configuration:EmojiViewConfiguration = EmojiViewConfiguration.defaultConfiguration) {
@@ -86,21 +92,31 @@ class EmojiView:UIView , CAAnimationDelegate {
     }
     
     private func setUp() {
+        self.backgroundColor = .clear
         let configuration:EmojiViewConfiguration = self.currentConfiguration ?? EmojiViewConfiguration.defaultConfiguration
         self.type =  configuration.emojiType
-        self.oscilation = configuration.oscilation
-        self.initialPosition = configuration.initialPosition
-        self.finalPosition = configuration.finalPosition
         self.frame = CGRect.init(origin: .zero, size: CGSize(width: configuration.itemSize, height: configuration.itemSize))
         self.addSubview(imageView)
         imageView.frame = CGRect.init(origin: .zero, size: self.frame.size)
         imageView.image = self.type.image
-        self.backgroundColor = .clear
+        self.addSubview(imageViewProfile)
+        imageViewProfile.frame = CGRect(origin: .zero, size: self.frame.size)
+        imageViewProfile.layer.cornerRadius = self.frame.size.width / 2
+        imageViewProfile.layer.masksToBounds = true
+        if configuration.owner == .me {
+            self.bringSubviewToFront(imageViewProfile)
+            imageViewProfile.image = User.me.profileImage
+        }
+        else {
+            self.bringSubviewToFront(imageView)
+        }
+        
     }
     
     private func initializePath() {
-        self.path = EmojiView.path(from: initialPosition, to: finalPosition, oscilation: oscilation)
-        self.animationGroup = EmojiView.animation(path: self.path, configuration: self.currentConfiguration!)
+        let configuration = self.currentConfiguration!
+        self.path = EmojiView.path(from: configuration.initialPosition, to:  configuration.finalPosition, oscilation: configuration.oscilation)
+        self.animationGroup = EmojiView.animation(path: self.path, configuration: configuration , imageViewEmoji: self.imageView, imageViewProfile: self.imageViewProfile)
         self.animationGroup.delegate = self
     }
     
@@ -116,11 +132,11 @@ class EmojiView:UIView , CAAnimationDelegate {
 
 // Animation Creator
 extension EmojiView {
-    fileprivate static func animation(path:CGPath , configuration:EmojiViewConfiguration)->CAAnimationGroup {
+    fileprivate static func animation(path:CGPath , configuration:EmojiViewConfiguration, imageViewEmoji:UIImageView , imageViewProfile:UIImageView)->CAAnimationGroup {
         var animations:[CAAnimation] = []
         switch configuration.owner {
             case .me:
-                animations = [positionAnimation(path: path) , opacityAnimation(configuration: configuration) , scaleAnimation(configuration: configuration)]
+                animations = [userReactionShowPositionAnimation(configuration: configuration) , userReactionShowOpacityAnimation() , userReactionShowScaleAnimation() , userReactionShowScaleBeforeBlinkAnimation()]
             default:
                 animations = [positionAnimation(path: path) , opacityAnimation(configuration: configuration) , scaleAnimation(configuration: configuration)]
         }
@@ -131,9 +147,64 @@ extension EmojiView {
         animationGroup.fillMode =  CAMediaTimingFillMode.forwards
         animationGroup.isRemovedOnCompletion = false
         
-        
         return animationGroup
     }
+    
+    private static func userReactionShowPositionAnimation(configuration:EmojiViewConfiguration)->CABasicAnimation {
+        let animationPosition = CABasicAnimation(keyPath: "position")
+        animationPosition.fromValue = configuration.initialPosition
+        animationPosition.toValue = CGPoint(x: configuration.initialPosition.x, y: configuration.initialPosition.y - 100)
+        animationPosition.duration = 0.3
+        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animationPosition.isRemovedOnCompletion = false
+        animationPosition.fillMode = CAMediaTimingFillMode.forwards
+        return animationPosition
+    }
+    
+
+    private static func userReactionShowScaleBeforeBlinkAnimation()->CASpringAnimation {
+        let animationPosition = CASpringAnimation(keyPath: "transform.scale")
+        animationPosition.fromValue = 0.5
+        animationPosition.toValue = 1
+        animationPosition.duration = 0.5
+        animationPosition.beginTime = 0.5
+        animationPosition.damping = 1
+        animationPosition.isRemovedOnCompletion = false
+        animationPosition.fillMode = CAMediaTimingFillMode.forwards
+        return animationPosition
+    }
+    
+    
+    private static func userReactionShowScaleAnimation()->CABasicAnimation {
+        let animationPosition = CABasicAnimation(keyPath: "transform.scale")
+        animationPosition.fromValue = 0
+        animationPosition.toValue = 0.5
+        animationPosition.duration = 0.3
+        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animationPosition.isRemovedOnCompletion = false
+        animationPosition.fillMode = CAMediaTimingFillMode.forwards
+        return animationPosition
+    }
+    
+    private static func userReactionShowOpacityAnimation()->CABasicAnimation {
+        let animationPosition = CABasicAnimation(keyPath: "opacity")
+        animationPosition.fromValue = 0
+        animationPosition.toValue = 1
+        animationPosition.duration = 0.3
+        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animationPosition.isRemovedOnCompletion = false
+        animationPosition.fillMode = CAMediaTimingFillMode.forwards
+        return animationPosition
+    }
+    
+    
+    
+    
+    /*
+    private static func userReactionShowOpacityAnimation()->CABasicAnimation {
+        
+    }
+    */
     
     private static func positionAnimation(path:CGPath)->CAKeyframeAnimation {
         let animationPosition = CAKeyframeAnimation(keyPath: "position")
