@@ -28,13 +28,13 @@ class LiveStreamVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setUpDisplayLink()
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-      //  setUpDisplayLink()
+        setUpDisplayLink()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -52,17 +52,9 @@ class LiveStreamVC: UIViewController {
     }
     
     @objc private func addUserReactionEmoji() {
-        let initPos = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
-        let finalPos = CGPoint(x: initPos.x, y: 0)
         let type = EmojiType.allCases.randomElement()!
-        let configuration = EmojiViewConfiguration(owner:EmojiOwner.me, oscilation: 120, itemSize: 30, duration: 7, initialPosition: initPos, finalPosition: finalPos, emojiType: type )
-        let emojiView = EmojiView(configuration: configuration)
-        emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
-        self.viewEmojiContainer.addSubview(emojiView)
-        emojiView.addAnimationsGroup()
-    
+       addEmojiView(type: type, owner: .me)
     }
-    
     
     private func setUpDisplayLink() {
         displayLink = CADisplayLink(target: self, selector: #selector(updateDisplayLink))
@@ -73,7 +65,8 @@ class LiveStreamVC: UIViewController {
         let currentTime = CACurrentMediaTime()*1000
         let seed = Int.random(in: 1..<200)
         guard Int(currentTime) % seed == 0 else { return }
-        addEmojiView()
+        let type = EmojiType.allCases.randomElement()!
+        addEmojiView(type: type, owner: .other)
     }
   
 
@@ -82,26 +75,22 @@ class LiveStreamVC: UIViewController {
 
 /// EMOJI VIEW
 extension LiveStreamVC {
-    @objc fileprivate func addEmojiView() {
+    fileprivate func addEmojiView(type:EmojiType , owner:EmojiOwner) {
         let initPos = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
         let finalPos = CGPoint(x: initPos.x, y: 0)
-        let type = EmojiType.allCases.randomElement()!
-        let configuration = EmojiViewConfiguration(owner:EmojiOwner.other, oscilation: 120, itemSize: 30, duration: 7, initialPosition: initPos, finalPosition: finalPos, emojiType: type )
+        let configuration = EmojiViewConfiguration(owner:owner, oscilation: 120, itemSize: 30, duration: 7, initialPosition: initPos, finalPosition: finalPos, emojiType: type )
         let emojiView = EmojiView(configuration: configuration)
-        emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
-        self.viewEmojiContainer.addSubview(emojiView)
-        emojiView.addAnimationsGroup()
+        emojiView.addTo(view: self.viewEmojiContainer)
         // debugPath(path: emojiView.path)
     }
-    
     
     private func debugPath(path:CGPath) {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path
         shapeLayer.fillColor = nil
         shapeLayer.strokeColor = UIColor.green.cgColor
-        shapeLayer.lineWidth = 2
-        self.view.layer.addSublayer(shapeLayer)
+        shapeLayer.lineWidth = 1
+        self.viewEmojiContainer.layer.addSublayer(shapeLayer)
     }
 }
 

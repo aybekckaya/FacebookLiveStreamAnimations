@@ -55,7 +55,7 @@ struct EmojiViewConfiguration {
     }()
     
 }
-// 243 ,185 , 66
+
 class EmojiView:UIView {
     
     static let heightConstraintValue:CGFloat = 500
@@ -81,7 +81,6 @@ class EmojiView:UIView {
     
     fileprivate(set) var path:CGPath!
     
-   
     private var currentConfiguration:EmojiViewConfiguration?
     
     init(configuration:EmojiViewConfiguration = EmojiViewConfiguration.defaultConfiguration) {
@@ -89,6 +88,12 @@ class EmojiView:UIView {
         self.currentConfiguration = configuration
         setUp()
         initializePath()
+    }
+    
+    func addTo(view:UIView) {
+        view.addSubview(self)
+        self.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
+        self.addAnimationsGroup()
     }
     
     private func setUp() {
@@ -110,7 +115,6 @@ class EmojiView:UIView {
         else {
             self.bringSubviewToFront(imageView)
         }
-        
     }
     
     private func initializePath() {
@@ -127,17 +131,17 @@ class EmojiView:UIView {
 // Animation Creator
 extension EmojiView: CAAnimationDelegate {
     
-    func addAnimationsGroup(completion:((EmojiView)->())? = nil) {
+    fileprivate func addAnimationsGroup() {
        
         let configuration = self.currentConfiguration!
         switch configuration.owner {
         case .me:
-            let positionAnim:CAKeyframeAnimation = positionAnimation(path: path, beginTime: 0, duration: 0.3)
-            let opacityAnim = opacityAnimation(beginTime: 0, duration: 0.3, from: 0, to: 1)
-            let scaleAnim = scaleAnimation(beginTime: 0, duration: 0.3, from: 0, to: 0.7)
-            let scaleAnimSpark = scaleAnimation(beginTime: 1, duration: 0.5, from: 0.7, to: 1 , springAvailable: true)
-            let scaleAnimHide = scaleAnimation(beginTime: 2.5, duration: 0.3, from: 1, to: 0, springAvailable: false)
-            let opacityAnimHide = opacityAnimation(beginTime: 2.5, duration: 0.3, from: 1, to: 0)
+            let positionAnim:CAKeyframeAnimation = EmojiViewAnimation.positionAnimation(path: path, beginTime: 0, duration: 0.3)
+            let opacityAnim = EmojiViewAnimation.opacityAnimation(beginTime: 0, duration: 0.3, from: 0, to: 1)
+            let scaleAnim = EmojiViewAnimation.scaleAnimation(beginTime: 0, duration: 0.3, from: 0, to: 0.7)
+            let scaleAnimSpark = EmojiViewAnimation.scaleAnimation(beginTime: 1, duration: 0.5, from: 0.7, to: 1 , springAvailable: true)
+            let scaleAnimHide = EmojiViewAnimation.scaleAnimation(beginTime: 2.5, duration: 0.3, from: 1, to: 0, springAvailable: false)
+            let opacityAnimHide = EmojiViewAnimation.opacityAnimation(beginTime: 2.5, duration: 0.3, from: 1, to: 0)
             let arrAnimations = [positionAnim , opacityAnim , scaleAnim , scaleAnimSpark , scaleAnimHide , opacityAnimHide]
             EmojiViewAnimationGroup(animations: arrAnimations, view: self).startAnimating {
                 var currentConfig = self.currentConfiguration!
@@ -152,128 +156,17 @@ extension EmojiView: CAAnimationDelegate {
                 self.removeFromSuperview()
             }
         default:
-            let initScaleAnim = scaleAnimation(beginTime: 0, duration: 0.3, from: 0, to: 1, springAvailable: false)
-            let positionAnim:CAKeyframeAnimation = positionAnimation(path: path, beginTime: 0.3, duration: 3)
-            let opacityAnim:CAAnimation = opacityAnimation(beginTime: 2.3, duration: 1)
-            let scaleAnim:CAAnimation = scaleAnimation(beginTime: 2.3, duration: 1)
+            let initScaleAnim = EmojiViewAnimation.scaleAnimation(beginTime: 0, duration: 0.3, from: 0, to: 1, springAvailable: false)
+            let positionAnim:CAKeyframeAnimation = EmojiViewAnimation.positionAnimation(path: path, beginTime: 1.3, duration: 3)
+            let opacityAnim:CAAnimation = EmojiViewAnimation.opacityAnimation(beginTime: 3.3, duration: 1)
+            let scaleAnim:CAAnimation = EmojiViewAnimation.scaleAnimation(beginTime: 3.3, duration: 1)
             let arrAnimations = [initScaleAnim , positionAnim, opacityAnim , scaleAnim]
             EmojiViewAnimationGroup(animations: arrAnimations, view: self).startAnimating {
                 print("completed")
             }
-           
         }
     }
-    
 
-    private func opacityAnimation(beginTime:CFTimeInterval , duration:CFTimeInterval , from:CGFloat = 1 , to:CGFloat = 0  )->CABasicAnimation {
-        let animationOpacity = CABasicAnimation(keyPath: "opacity")
-        animationOpacity.fromValue = from
-        animationOpacity.toValue = to
-        animationOpacity.duration = duration
-        animationOpacity.beginTime = beginTime
-        animationOpacity.isRemovedOnCompletion = false
-        animationOpacity.fillMode = CAMediaTimingFillMode.forwards
-        return animationOpacity
-    }
-    
-    private  func scaleAnimation(beginTime:CFTimeInterval  , duration:CFTimeInterval , from:CGFloat = 1 , to:CGFloat = 0, springAvailable:Bool = false )->CAAnimation {
-        if springAvailable == true {
-            let animationScale = CASpringAnimation(keyPath: "transform.scale")
-            animationScale.fromValue = from
-            animationScale.toValue = to
-            animationScale.duration = duration
-            animationScale.beginTime = beginTime
-            animationScale.damping = 0.3
-            animationScale.isRemovedOnCompletion = false
-            animationScale.fillMode = CAMediaTimingFillMode.forwards
-            return animationScale
-        }
-        let animationScale = CABasicAnimation(keyPath: "transform.scale")
-        animationScale.fromValue = from
-        animationScale.toValue = to
-        animationScale.duration = duration
-        animationScale.beginTime = beginTime
-        animationScale.isRemovedOnCompletion = false
-        animationScale.fillMode = CAMediaTimingFillMode.forwards
-        return animationScale
-    }
-    
-    
-    private  func positionAnimation(path:CGPath , beginTime:CFTimeInterval , duration:CFTimeInterval)->CAKeyframeAnimation {
-        let animationPosition = CAKeyframeAnimation(keyPath: "position")
-        animationPosition.path = path
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.beginTime = beginTime
-        animationPosition.duration = duration
-        return animationPosition
-    }
-    
-
-    private func userReactionShowProfileImageToHiddenAnimation()->CABasicAnimation {
-        let animationPosition = CABasicAnimation(keyPath: "transform.scale")
-        animationPosition.fromValue = 1
-        animationPosition.toValue = 0
-        animationPosition.duration = 0.3
-        animationPosition.beginTime = 2
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        return animationPosition
-    }
-    
-    
-    private func userReactionShowPositionAnimation(configuration:EmojiViewConfiguration)->CABasicAnimation {
-        let animationPosition = CABasicAnimation(keyPath: "position")
-        animationPosition.fromValue = configuration.initialPosition
-        animationPosition.toValue = CGPoint(x: configuration.initialPosition.x, y: configuration.initialPosition.y - 100)
-        animationPosition.duration = 0.3
-        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        return animationPosition
-    }
-    
-
-    private  func userReactionShowScaleBeforeBlinkAnimation()->CASpringAnimation {
-        let animationPosition = CASpringAnimation(keyPath: "transform.scale")
-        animationPosition.fromValue = 0.5
-        animationPosition.toValue = 1
-        animationPosition.duration = 0.5
-        animationPosition.beginTime = 0.5
-        animationPosition.damping = 1
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        return animationPosition
-    }
-    
-    
-    private  func userReactionShowScaleAnimation()->CABasicAnimation {
-        let animationPosition = CABasicAnimation(keyPath: "transform.scale")
-        animationPosition.fromValue = 0
-        animationPosition.toValue = 0.5
-        animationPosition.duration = 0.3
-        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        return animationPosition
-    }
-    
-    private func userReactionShowOpacityAnimation()->CABasicAnimation {
-        let animationPosition = CABasicAnimation(keyPath: "opacity")
-        animationPosition.fromValue = 0
-        animationPosition.toValue = 1
-        animationPosition.duration = 0.3
-        animationPosition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        animationPosition.isRemovedOnCompletion = false
-        animationPosition.fillMode = CAMediaTimingFillMode.forwards
-        return animationPosition
-    }
-    
-    
-    
-   
-    
-    
 }
 
 
