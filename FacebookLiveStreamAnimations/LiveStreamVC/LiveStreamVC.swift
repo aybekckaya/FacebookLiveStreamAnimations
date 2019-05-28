@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LiveStreamVC: UIViewController {
+class LiveStreamVC: UIViewController , ReactionVCDelegate {
 
     private var displayLink:CADisplayLink?
     
@@ -46,9 +46,22 @@ class LiveStreamVC: UIViewController {
         viewEmojiContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: nil, trailing: 0)
         viewEmojiContainer.addLengthConstraints(height: EmojiView.heightConstraintValue, width: EmojiView.widthConstraintValue)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addUserReactionEmoji))
-        self.view.addGestureRecognizer(tapGesture)
+        self.view.addSubview(viewReactionsContainer)
+        viewReactionsContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: 0, trailing: 0)
+        viewReactionsContainer.addLengthConstraints(height: 55, width: nil)
+        viewReactionsContainer.backgroundColor = UIColor.white
         
+        let reactionVCConfiguration:ReactionVCConfiguration = ReactionVCConfiguration(emojiTypes: EmojiType.allCases)
+        vcReactions.configureViewController(configuration: reactionVCConfiguration , delegate: self)
+        self.addChildViewController(childController: vcReactions, onView: viewReactionsContainer)
+        
+       // let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addUserReactionEmoji))
+       // self.view.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    func reactionViewControllerEmojiSelected(viewController: ReactionVC, type: EmojiType) {
+        addEmojiView(type: type, owner: .me)
     }
     
     @objc private func addUserReactionEmoji() {

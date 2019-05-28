@@ -21,6 +21,11 @@
 		A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D0229C000600C97312 /* UIView+Constraints.swift */; };
 		A34935D3229C0AF400C97312 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D2229C0AF400C97312 /* User.swift */; };
 		A36350D3229D83A8009234DD /* EmojiViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36350D2229D83A7009234DD /* EmojiViewAnimator.swift */; };
+		A36350D5229DBC85009234DD /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36350D4229DBC85009234DD /* UIViewController+extension.swift */; };
+		A36350DA229DD95F009234DD /* ReactionVCEmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36350D8229DD95F009234DD /* ReactionVCEmojiCell.swift */; };
+		A36350DB229DD95F009234DD /* ReactionVCEmojiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36350D9229DD95F009234DD /* ReactionVCEmojiCell.xib */; };
+		A36350DE229DD970009234DD /* ReactionVCCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36350DC229DD970009234DD /* ReactionVCCommentCell.swift */; };
+		A36350DF229DD970009234DD /* ReactionVCCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36350DD229DD970009234DD /* ReactionVCCommentCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +66,11 @@
 		A34935D0229C000600C97312 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		A34935D2229C0AF400C97312 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A36350D2229D83A7009234DD /* EmojiViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewAnimator.swift; sourceTree = "<group>"; };
+		A36350D4229DBC85009234DD /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		A36350D8229DD95F009234DD /* ReactionVCEmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVCEmojiCell.swift; sourceTree = "<group>"; };
+		A36350D9229DD95F009234DD /* ReactionVCEmojiCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVCEmojiCell.xib; sourceTree = "<group>"; };
+		A36350DC229DD970009234DD /* ReactionVCCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVCCommentCell.swift; sourceTree = "<group>"; };
+		A36350DD229DD970009234DD /* ReactionVCCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVCCommentCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +130,7 @@
 				A34935A0229BE0BB00C97312 /* LaunchScreen.storyboard */,
 				A34935A3229BE0BB00C97312 /* Info.plist */,
 				A349359B229BE0B900C97312 /* FacebookLiveStreamAnimations.xcdatamodeld */,
-				A34935C5229BE16100C97312 /* LiveStreamVC.swift */,
+				A36350E0229DE7B7009234DD /* LiveStreamVC */,
 				A34935D4229C0B4400C97312 /* Models */,
 			);
 			path = FacebookLiveStreamAnimations;
@@ -156,6 +166,8 @@
 		A34935CA229BFC1F00C97312 /* ReactionVC */ = {
 			isa = PBXGroup;
 			children = (
+				A36350D7229DD940009234DD /* ReactionVCEmojiCell */,
+				A36350D6229DD925009234DD /* ReactionVCCommentCell */,
 				A34935CB229BFC7900C97312 /* ReactionVC.swift */,
 				A34935CC229BFC7900C97312 /* ReactionVC.xib */,
 			);
@@ -166,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				A34935D0229C000600C97312 /* UIView+Constraints.swift */,
+				A36350D4229DBC85009234DD /* UIViewController+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -176,6 +189,32 @@
 				A34935D2229C0AF400C97312 /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A36350D6229DD925009234DD /* ReactionVCCommentCell */ = {
+			isa = PBXGroup;
+			children = (
+				A36350DC229DD970009234DD /* ReactionVCCommentCell.swift */,
+				A36350DD229DD970009234DD /* ReactionVCCommentCell.xib */,
+			);
+			path = ReactionVCCommentCell;
+			sourceTree = "<group>";
+		};
+		A36350D7229DD940009234DD /* ReactionVCEmojiCell */ = {
+			isa = PBXGroup;
+			children = (
+				A36350D8229DD95F009234DD /* ReactionVCEmojiCell.swift */,
+				A36350D9229DD95F009234DD /* ReactionVCEmojiCell.xib */,
+			);
+			path = ReactionVCEmojiCell;
+			sourceTree = "<group>";
+		};
+		A36350E0229DE7B7009234DD /* LiveStreamVC */ = {
+			isa = PBXGroup;
+			children = (
+				A34935C5229BE16100C97312 /* LiveStreamVC.swift */,
+			);
+			path = LiveStreamVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +321,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36350DB229DD95F009234DD /* ReactionVCEmojiCell.xib in Resources */,
+				A36350DF229DD970009234DD /* ReactionVCCommentCell.xib in Resources */,
 				A34935A2229BE0BB00C97312 /* LaunchScreen.storyboard in Resources */,
 				A34935CE229BFC7900C97312 /* ReactionVC.xib in Resources */,
 				A349359F229BE0BB00C97312 /* Assets.xcassets in Resources */,
@@ -312,6 +353,9 @@
 			files = (
 				A34935CD229BFC7900C97312 /* ReactionVC.swift in Sources */,
 				A3493595229BE0B900C97312 /* AppDelegate.swift in Sources */,
+				A36350DA229DD95F009234DD /* ReactionVCEmojiCell.swift in Sources */,
+				A36350DE229DD970009234DD /* ReactionVCCommentCell.swift in Sources */,
+				A36350D5229DBC85009234DD /* UIViewController+extension.swift in Sources */,
 				A34935C9229BE1D300C97312 /* EmojiView.swift in Sources */,
 				A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */,
 				A36350D3229D83A8009234DD /* EmojiViewAnimator.swift in Sources */,
