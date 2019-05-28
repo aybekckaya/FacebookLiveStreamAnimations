@@ -28,7 +28,7 @@ class LiveStreamVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //setUpDisplayLink()
+        setUpDisplayLink()
     }
     
     override func viewDidLoad() {
@@ -59,8 +59,7 @@ class LiveStreamVC: UIViewController {
         let emojiView = EmojiView(configuration: configuration)
         emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
         self.viewEmojiContainer.addSubview(emojiView)
-        let animation = emojiView.animationGroup
-        emojiView.layer.add(animation!, forKey: nil)
+        emojiView.addAnimationsGroup()
     
     }
     
@@ -91,8 +90,7 @@ extension LiveStreamVC {
         let emojiView = EmojiView(configuration: configuration)
         emojiView.center = CGPoint(x: EmojiView.widthConstraintValue/2, y: EmojiView.heightConstraintValue)
         self.viewEmojiContainer.addSubview(emojiView)
-        let animation = emojiView.animationGroup
-        emojiView.layer.add(animation!, forKey: nil)
+        emojiView.addAnimationsGroup()
         // debugPath(path: emojiView.path)
     }
     

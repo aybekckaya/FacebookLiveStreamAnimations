@@ -20,6 +20,7 @@
 		A34935CE229BFC7900C97312 /* ReactionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A34935CC229BFC7900C97312 /* ReactionVC.xib */; };
 		A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D0229C000600C97312 /* UIView+Constraints.swift */; };
 		A34935D3229C0AF400C97312 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34935D2229C0AF400C97312 /* User.swift */; };
+		A36350D3229D83A8009234DD /* EmojiViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36350D2229D83A7009234DD /* EmojiViewAnimator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		A34935CC229BFC7900C97312 /* ReactionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVC.xib; sourceTree = "<group>"; };
 		A34935D0229C000600C97312 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		A34935D2229C0AF400C97312 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A36350D2229D83A7009234DD /* EmojiViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewAnimator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				A34935C8229BE1D300C97312 /* EmojiView.swift */,
+				A36350D2229D83A7009234DD /* EmojiViewAnimator.swift */,
 			);
 			path = EmojiView;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				A3493595229BE0B900C97312 /* AppDelegate.swift in Sources */,
 				A34935C9229BE1D300C97312 /* EmojiView.swift in Sources */,
 				A34935D1229C000600C97312 /* UIView+Constraints.swift in Sources */,
+				A36350D3229D83A8009234DD /* EmojiViewAnimator.swift in Sources */,
 				A34935C6229BE16100C97312 /* LiveStreamVC.swift in Sources */,
 				A349359D229BE0B900C97312 /* FacebookLiveStreamAnimations.xcdatamodeld in Sources */,
 				A34935D3229C0AF400C97312 /* User.swift in Sources */,
