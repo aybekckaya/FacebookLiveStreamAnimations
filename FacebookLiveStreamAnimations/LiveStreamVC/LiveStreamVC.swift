@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LiveStreamVC: UIViewController , ReactionVCDelegate {
+class LiveStreamVC: UIViewController , ReactionVCDelegate{
 
     private var displayLink:CADisplayLink?
     
@@ -26,9 +26,18 @@ class LiveStreamVC: UIViewController , ReactionVCDelegate {
     
     private let vcReactions:ReactionVC = ReactionVC(nibName: "ReactionVC", bundle: nil)
     
+    private var reactionContainerViewBottomConstraint:NSLayoutConstraint!
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+       
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotifications(notification:)), name:  UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotifications(notification:)), name:  UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -37,38 +46,46 @@ class LiveStreamVC: UIViewController , ReactionVCDelegate {
         setUpDisplayLink()
     }
     
+    
+    @objc private func handleKeyboardNotifications(notification:Notification) {
+        guard let userInfo = notification.userInfo , let keyboardFrame:CGRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect  else { return  }
+        reactionContainerViewBottomConstraint.constant = (-1) * (self.view.frame.size.height - keyboardFrame.origin.y)
+        UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }) { _ in
+            
+        }
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     private func setUpUI() {
+      
         self.view.addSubview(viewEmojiContainer)
         viewEmojiContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: nil, trailing: 0)
         viewEmojiContainer.addLengthConstraints(height: EmojiView.heightConstraintValue, width: EmojiView.widthConstraintValue)
         
         self.view.addSubview(viewReactionsContainer)
-        viewReactionsContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: 0, leading: 0, trailing: 0)
+        viewReactionsContainer.addSnapConstraints(baseView: self.view, top: nil, bottom: nil, leading: 0, trailing: 0)
         viewReactionsContainer.addLengthConstraints(height: 55, width: nil)
         viewReactionsContainer.backgroundColor = UIColor.white
+        reactionContainerViewBottomConstraint = NSLayoutConstraint(item: viewReactionsContainer, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+        reactionContainerViewBottomConstraint.isActive = true
         
         let reactionVCConfiguration:ReactionVCConfiguration = ReactionVCConfiguration(emojiTypes: EmojiType.allCases)
         vcReactions.configureViewController(configuration: reactionVCConfiguration , delegate: self)
         self.addChildViewController(childController: vcReactions, onView: viewReactionsContainer)
         
-       // let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addUserReactionEmoji))
-       // self.view.addGestureRecognizer(tapGesture)
-        
     }
     
+   
     func reactionViewControllerEmojiSelected(viewController: ReactionVC, type: EmojiType) {
         addEmojiView(type: type, owner: .me)
     }
     
-    @objc private func addUserReactionEmoji() {
-        let type = EmojiType.allCases.randomElement()!
-       addEmojiView(type: type, owner: .me)
-    }
-    
+
     private func setUpDisplayLink() {
         displayLink = CADisplayLink(target: self, selector: #selector(updateDisplayLink))
         displayLink?.add(to: .main, forMode: RunLoop.Mode.common)

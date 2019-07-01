@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ReactionVCCommentCell: UICollectionViewCell {
+class ReactionVCCommentCell: UICollectionViewCell , UITextViewDelegate {
 
     @IBOutlet weak var lblContainerView: UIView!
-    @IBOutlet weak var lblComment: UILabel!
+    @IBOutlet weak var twComment: UITextView!
     
     private let placeholderColor:UIColor = UIColor.lightGray
     private let textColor:UIColor = UIColor.black
@@ -22,18 +22,19 @@ class ReactionVCCommentCell: UICollectionViewCell {
         self.lblContainerView.layer.masksToBounds = true
         self.lblContainerView.layer.borderColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
         self.lblContainerView.layer.borderWidth = 1
+        twComment.delegate = self 
     }
 
     func updateCell(text:String , placeholderText:String) {
-        self.lblComment.text = text
-        if text == "" {
-            self.lblComment.text = placeholderText
-            self.lblComment.textColor = placeholderColor
+      
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
         }
-        else {
-            self.lblComment.text = text
-            self.lblComment.textColor = textColor
-        }
+        return true
     }
     
 }

@@ -29,6 +29,6 @@ class ReactionVCEmojiCell: UICollectionViewCell {
 
 extension ReactionVCEmojiCell {
     static func size()->CGSize {
-        return CGSize(width: 55, height: 55)
+        return CGSize(width: 45, height: 55)
     }
 }

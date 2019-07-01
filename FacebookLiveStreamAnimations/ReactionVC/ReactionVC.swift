@@ -108,27 +108,5 @@ class ReactionVC: UIViewController , UICollectionViewDelegate , UICollectionView
             delegate.reactionViewControllerEmojiSelected(viewController: self, type: emojiType)
         }
     }
-    
 
 }
-
-/*
-protocol PlaceholderTextView {
-    var placeholder:String { get set }
-    func inputViewBeginEditing(currentText:String)
-    func inputViewDidChange(currentText:String)
-    func inputViewDidEndEditing(currentText:String)
-}
-
-extension PlaceholderTextView {
-    func inputViewBeginEditing(currentText:String) {}
-    func inputViewDidChange(currentText:String) {}
-    func inputViewDidEndEditing(currentText:String) {}
-}
-
-
-class FBTextView:UITextView , PlaceholderTextView , UITextViewDelegate  {
-    var placeholder: String = "Add comment"
-    
-}
-*/
