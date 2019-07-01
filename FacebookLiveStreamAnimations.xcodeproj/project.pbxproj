@@ -71,6 +71,7 @@
 		A36350D9229DD95F009234DD /* ReactionVCEmojiCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVCEmojiCell.xib; sourceTree = "<group>"; };
 		A36350DC229DD970009234DD /* ReactionVCCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVCCommentCell.swift; sourceTree = "<group>"; };
 		A36350DD229DD970009234DD /* ReactionVCCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReactionVCCommentCell.xib; sourceTree = "<group>"; };
+		A3FDD75D22CAA88800DA268E /* fbLive-1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "fbLive-1.gif"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 		A3493588229BE0B900C97312 = {
 			isa = PBXGroup;
 			children = (
+				A3FDD75C22CAA80E00DA268E /* Visual */,
 				A3493593229BE0B900C97312 /* FacebookLiveStreamAnimations */,
 				A34935AB229BE0BB00C97312 /* FacebookLiveStreamAnimationsTests */,
 				A34935B6229BE0BB00C97312 /* FacebookLiveStreamAnimationsUITests */,
@@ -215,6 +217,14 @@
 				A34935C5229BE16100C97312 /* LiveStreamVC.swift */,
 			);
 			path = LiveStreamVC;
+			sourceTree = "<group>";
+		};
+		A3FDD75C22CAA80E00DA268E /* Visual */ = {
+			isa = PBXGroup;
+			children = (
+				A3FDD75D22CAA88800DA268E /* fbLive-1.gif */,
+			);
+			path = Visual;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
